@@ -16,6 +16,7 @@ class IRCConfig:
     nickname: str
     username: str
     realname: str
+    password: str | None = None
 
 
 @dataclass
@@ -63,7 +64,8 @@ class Config:
                 ssl=config['irc']['ssl'],
                 nickname=config['irc']['nickname'],
                 username=config['irc'].get('username', config['irc']['nickname']),
-                realname=config['irc'].get('realname', config['irc']['nickname'])
+                realname=config['irc'].get('realname', config['irc']['nickname']),
+                password=config['irc'].get('password')
             ),
             relays=[RelayConfig(**relay) for relay in config['relay']]
         )

@@ -55,7 +55,8 @@ class WalnutBot:
         await self.irc.register(
             nickname=self.config.irc_config.nickname,
             username=self.config.irc_config.username,
-            realname=self.config.irc_config.realname
+            realname=self.config.irc_config.realname,
+            password=self.config.irc_config.password
         )
 
         for relay in self.config.relays:
