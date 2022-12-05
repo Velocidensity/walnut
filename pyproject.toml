@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "walnut"
-version = "0.0.0"
-description = "An extensible hybrid Discord/IRC bot"
+version = "0.1.0"
+description = "An extensible hybrid Discord/IRC relay bot"
 authors = ["Velocidensity"]
 license = "MIT"
 readme = "README.md"
@@ -21,13 +21,14 @@ isort = "^5.10.1"
 pre-commit = "^2.20.0"
 flake8 = "^5.0.4"
 flake8-pyproject = "^1.1.0.post0"
+mypy = "^0.991"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-walnut = "walnut.__main__:run"
+walnut = "walnut.__main__:cli"
 
 [tool.flake8]
 max-line-length = 120
@@ -37,3 +38,10 @@ line_length = 120
 
 [tool.pyright]
 venvPath = [".venv"]
+
+[tool.mypy]
+pretty = true
+mypy_path = "$MYPY_CONFIG_FILE_DIR/stubs"
+
+[tool.setuptools.packages.find]
+where = ["walnut/_data"]

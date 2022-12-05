@@ -1,6 +1,8 @@
+from asyncio.futures import Future
 from dataclasses import dataclass
 
-from pyrcb2 import IRCBot, IStr, Sender
+from pyrcb2.itypes import IStr, Sender
+from pyrcb2.pyrcb2 import IRCBot
 
 
 @dataclass
@@ -12,9 +14,9 @@ class Message:
     content: str
 
     @property
-    def author(self):
+    def author(self) -> Sender:
         return self.sender
 
-    async def reply(self, content: str):
+    async def reply(self, content: str) -> Future:
         """Sends a reply to the source channel"""
         return self.context.privmsg(self.channel, content)

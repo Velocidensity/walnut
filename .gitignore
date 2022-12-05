@@ -153,6 +153,7 @@ dmypy.json
 cython_debug/
 
 # Walnut
+stubs
 config.toml
 run.py
 test.py

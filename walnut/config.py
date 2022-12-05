@@ -4,10 +4,12 @@ from dataclasses import dataclass
 from pathlib import Path
 
 import tomllib
+from pyrcb2.itypes import IStr
 
 
 @dataclass
 class IRCConfig:
+    """Class storing IRC connection configuration"""
     server: str
     port: int
     ssl: bool
@@ -18,9 +20,10 @@ class IRCConfig:
 
 @dataclass
 class RelayConfig:
-    irc_channel: str
+    """Class storing Discord/IRC relay configuration"""
+    irc_channel: IStr
     discord_channel_id: int
-    discord_webhook: str | None
+    discord_webhook_url: str | None
     colorize_irc_nicknames: bool = True
     use_discord_nicknames: bool = True
     use_discord_usernames_with_nicknames: bool = True
@@ -31,12 +34,13 @@ class RelayConfig:
 
 @dataclass
 class Config:
+    """Class storing Walnut configuration"""
     discord_token: str
     irc_config: IRCConfig
     relays: list[RelayConfig]
 
     @classmethod
-    def load(cls, file: Path):
+    def from_file(cls, file: Path) -> Config:
         with file.open(mode='rb') as fp:
             config = tomllib.load(fp)
 
@@ -48,7 +52,7 @@ class Config:
             raise ValueError('"token" key missing from the "discord" config section')
 
         for key in ('server', 'port', 'ssl', 'nickname'):
-            if key not in config['discord'].keys():
+            if key not in config['irc'].keys():
                 raise ValueError(f'"{key}" key missing from the "irc" config section')
 
         return cls(
@@ -59,7 +63,7 @@ class Config:
                 ssl=config['irc']['ssl'],
                 nickname=config['irc']['nickname'],
                 username=config['irc'].get('username', config['irc']['nickname']),
-                realname=config['irc'].get('realname', config['irc']['username'])
+                realname=config['irc'].get('realname', config['irc']['nickname'])
             ),
             relays=[RelayConfig(**relay) for relay in config['relay']]
         )

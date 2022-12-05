@@ -165,10 +165,9 @@ def _get_color(color: str | int | None) -> str | None:
 
     # You can also pass the name of the color
     color_name = color.upper()
-    color_dict = Colors.__dict__
     try:
-        return color_dict[color_name]
-    except KeyError:
+        return getattr(Colors, color_name)
+    except AttributeError:
         raise ValueError('Unknown color name {}'.format(color))
 
 

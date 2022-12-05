@@ -3,7 +3,7 @@ from __future__ import annotations
 import re
 
 import mistune
-from mistune.plugins.formatting import PREVENT_BACKSLASH, _parse_to_end
+from mistune.plugins.formatting import PREVENT_BACKSLASH, _parse_to_end  # type: ignore[attr-defined]
 
 __all__ = ['EMOJI_REGEX', 'discord_spoiler', 'discord_emoji']
 
