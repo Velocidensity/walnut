@@ -64,6 +64,9 @@ class WalnutBot:
 
     @Event.privmsg  # type: ignore[attr-defined]
     async def _on_irc_message(self, sender: Sender, channel: IStr, message: str) -> None:
+        if sender == self.config.irc_config.nickname:
+            return
+
         obj = IRCMessage(self.irc, sender, channel, message)
         for hook in self.irc_hooks:
             await hook(obj)
