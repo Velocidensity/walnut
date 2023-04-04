@@ -72,5 +72,8 @@ class WalnutBot:
             await hook(obj)
 
     async def _on_discord_message(self, message: discord.Message) -> None:
+        if message.author == self.discord.user:
+            return
+
         for hook in self.discord_hooks:
             await hook(message)

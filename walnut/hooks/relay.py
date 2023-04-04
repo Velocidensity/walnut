@@ -111,8 +111,7 @@ class MessageRelay(BaseHook):
         if not self.bot:
             raise RuntimeError('Relay not loaded, Relay.load(bot) must be called first')
 
-        if message.author == self.bot.discord.user or message.author.bot \
-                or message.channel.id != self.discord_channel_id:
+        if message.author.bot or message.channel.id != self.discord_channel_id:
             return
 
         nickname = self.format_discord_user(message.author)

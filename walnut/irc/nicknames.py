@@ -45,7 +45,7 @@ def format_discord_user(
 
     if isinstance(user, discord.Member):
         name = _sanitize(user.nick or user.name if use_nickname else user.name)
-        if use_username and user.nick:
+        if use_username and user.nick and user.nick.lower() != user.name.lower():
             name += f' ({_sanitize(user.name)})'
     else:
         name = _sanitize(user.name)
