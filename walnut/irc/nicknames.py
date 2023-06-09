@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import discord
 
+from walnut.discord.helpers import get_nickname
 from walnut.irc.formatting import color
 
 NICK_COLORS = ['LIGHT_BLUE', 'BLUE', 'LIGHT_RED', 'RED', 'LIGHT_GREEN',
@@ -10,7 +11,7 @@ NON_BREAKING_SPACE = '\u200b'
 
 
 def sanitize_nickname(nickname: str) -> str:
-    """Adds a non-breaking space to a nickname prevent pinging"""
+    """Adds a non-breaking space to a nickname to prevent pinging"""
     return nickname[0] + NON_BREAKING_SPACE + nickname[1:]
 
 
@@ -33,8 +34,8 @@ def format_discord_user(
 
     :param user: an object representing a Discord user/member
     :param colorize: toggles nickname colorization (based on global username for consistency)
-    :param use_nickname: toggles displaying server nickname instead of global usernames
-    :param use_username: toggles displaying global usernames next to nicknames
+    :param use_nickname: toggles displaying nicknames instead of usernames
+    :param use_username: toggles displaying usernames next to nicknames
     :param prevent_pinging: prevents pinging the message author
     :param sanitized_names: optional list of nicknames to sanitize
     """
@@ -43,10 +44,9 @@ def format_discord_user(
             return sanitize_nickname(nickname)
         return nickname
 
-    if isinstance(user, discord.Member):
-        name = _sanitize(user.nick or user.name if use_nickname else user.name)
-        if use_username and user.nick and user.nick.lower() != user.name.lower():
-            name += f' ({_sanitize(user.name)})'
+    nickname = get_nickname(user) if use_nickname else user.name
+    if use_username and nickname.lower() != user.name.lower():
+        name = f'{_sanitize(nickname)} ({_sanitize(user.name)})'
     else:
         name = _sanitize(user.name)
 

@@ -3,10 +3,16 @@ from __future__ import annotations
 import discord
 
 
-def get_nicknames(user: discord.User | discord.Member) -> list[str]:
-    """Returns a list of all names for a given Discord user"""
-    if isinstance(user, discord.Member) \
-            and user.nick is not None and user.nick != user.name:
-        return [user.nick, user.name]
+def get_nickname(user: discord.User | discord.Member) -> str:
+    """
+    Returns a nickname for a given Discord user
 
-    return [user.name]
+    Prioritizes in order: server nickname, global display name, username
+    """
+    if isinstance(user, discord.Member) and user.nick is not None:
+        return user.nick
+
+    if user.global_name is not None:
+        return user.global_name
+
+    return user.name
