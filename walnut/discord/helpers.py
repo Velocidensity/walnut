@@ -16,3 +16,8 @@ def get_nickname(user: discord.User | discord.Member) -> str:
         return user.global_name
 
     return user.name
+
+
+def get_emoji_url(emoji_id: int) -> str:
+    """Return emoji URL for a given ID"""
+    return f'https://cdn.discordapp.com/emojis/{emoji_id}.png'

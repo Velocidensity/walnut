@@ -12,6 +12,7 @@ from pyrcb2.itypes import IStr
 
 from walnut.bot import WalnutBot
 from walnut.config import RelayConfig
+from walnut.discord.helpers import get_emoji_url
 from walnut.discord.markdown import EMOJI_REGEX, discord_emoji, discord_spoiler
 from walnut.hooks.base import BaseHook
 from walnut.irc.markdown import IRCRenderer
@@ -133,10 +134,12 @@ class MessageRelay(BaseHook):
 
         # Treat emoji-only messages similar to stickers
         if m := re.match(EMOJI_REGEX, message.content):
-            emoji = self.bot.discord.get_emoji(int(m.group('id')))
+            # discord.py's get_emoji relies on the emoji being from a shared server
+            # and ID is sufficient to get the image URL
+            emoji_url = get_emoji_url(int(m.group('id')))
             await self.bot.irc.privmsg(
                 self.irc_channel,
-                f'<{nickname}> Emoji: {m.group("name")}' + (f' ({emoji.url})' if emoji else '')
+                f'<{nickname}> Emoji: {m.group("name")} {emoji_url}'
             )
         # Regular message, still want to strip out emoji IDs (<:emote:12345> -> :emote:)
         else:
