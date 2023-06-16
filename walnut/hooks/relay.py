@@ -147,7 +147,7 @@ class MessageRelay(BaseHook):
             if parsed.count('\n') > 3:  # preserve new lines without spam
                 parsed = parsed.replace('\n', ' ')
 
-            for part in parsed.splitlines():
+            for part in parsed.split('\n'):
                 await self.bot.irc.privmsg(
                     self.irc_channel,
                     f'<{nickname}> {reply}' + part
