@@ -57,8 +57,8 @@ class IRCRenderer(mistune.BaseRenderer):
     def codespan(self, text: str) -> str:
         return f'[CODE] {text}'
 
-    def block_code(self, text: str, language: str | None) -> str:
-        return f'[CODE | {language}] {text}'
+    def block_code(self, text: str, info: str | None) -> str:
+        return f'[CODE | {info}] {text}'
 
     def inline_html(self, _: str) -> str:
         return ''

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "walnut"
-version = "0.1.6"
+version = "0.1.7"
 description = "An extensible hybrid Discord/IRC relay bot"
 authors = ["Velocidensity"]
 license = "MIT"
