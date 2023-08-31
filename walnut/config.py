@@ -1,9 +1,9 @@
 from __future__ import annotations
 
+import tomllib
 from dataclasses import dataclass
 from pathlib import Path
 
-import tomllib
 from pyrcb2.itypes import IStr
 
 
@@ -46,14 +46,14 @@ class Config:
             config = tomllib.load(fp)
 
         for key in ('discord', 'irc'):
-            if key not in config.keys():
+            if key not in config:
                 raise ValueError(f'"{key}" key missing from config')
 
-        if 'token' not in config['discord'].keys():
+        if 'token' not in config['discord']:
             raise ValueError('"token" key missing from the "discord" config section')
 
         for key in ('server', 'port', 'ssl', 'nickname'):
-            if key not in config['irc'].keys():
+            if key not in config['irc']:
                 raise ValueError(f'"{key}" key missing from the "irc" config section')
 
         return cls(

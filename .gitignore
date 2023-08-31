@@ -152,6 +152,9 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
+# ruff
+.ruff_cache/
+
 # Walnut
 stubs
 config.toml

@@ -161,11 +161,11 @@ class MessageRelay(BaseHook):
             )
 
     def format_discord_user(self, user: discord.User | discord.Member, **kwargs) -> str:
-        params = dict(
-            colorize=self.colorize_irc_nicknames,
-            use_nickname=self.use_discord_nicknames,
-            use_username=self.use_discord_usernames_with_nicknames,
-            prevent_pinging=self.prevent_self_pinging,
-        )
+        params = {
+            'colorize': self.colorize_irc_nicknames,
+            'use_nickname': self.use_discord_nicknames,
+            'use_username': self.use_discord_usernames_with_nicknames,
+            'prevent_pinging': self.prevent_self_pinging,
+        }
         params.update(kwargs)
         return format_discord_user(user, **params)

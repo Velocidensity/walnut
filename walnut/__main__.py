@@ -8,7 +8,7 @@ from walnut.bot import WalnutBot
 from walnut.config import Config
 from walnut.hooks.relay import MessageRelay
 
-CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
+CONTEXT_SETTINGS = {'help_option_names': ['-h', '--help']}
 
 
 @click.group(context_settings=CONTEXT_SETTINGS)

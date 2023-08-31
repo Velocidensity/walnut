@@ -39,10 +39,7 @@ class IRCRenderer(mistune.BaseRenderer):
         return strikethrough(text)
 
     def link(self, text: str, url: str, title: str | None = None) -> str:
-        if text == url:
-            output = text
-        else:
-            output = f'{url} ({text})'
+        output = text if text == url else f'{url} ({text})'
         if title and title not in (text, url):
             output = f'{output} ({title})'
 
