@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-import tomllib
 from dataclasses import dataclass
 from pathlib import Path
 
+import toml
 from pyrcb2.itypes import IStr
 
 
@@ -53,8 +53,8 @@ class Config:
         Raises:
             ValueError: Incorrect config values, missing config keys
         """
-        with file.open(mode='rb') as fp:
-            config = tomllib.load(fp)
+        with file.open(mode='r', encoding='utf-8') as fp:
+            config = toml.load(fp)
 
         for key in ('discord', 'irc'):
             if key not in config:
