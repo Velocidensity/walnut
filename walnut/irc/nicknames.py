@@ -48,7 +48,7 @@ def format_discord_user(
     if use_username and nickname.lower() != user.name.lower():
         name = f'{_sanitize(nickname)} ({_sanitize(user.name)})'
     else:
-        name = _sanitize(user.name)
+        name = _sanitize(nickname)
 
     if colorize:
         selected_color = select_color(user.name)
