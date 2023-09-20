@@ -38,7 +38,6 @@ class MessageRelay(BaseHook):
     use_discord_nicknames: bool = True
     use_discord_usernames_with_nicknames: bool = True
     prevent_self_pinging: bool = True
-    expand_emotes: bool = True
     enable_stickers: bool = True
 
     def __init__(
@@ -161,6 +160,7 @@ class MessageRelay(BaseHook):
             )
 
     def format_discord_user(self, user: discord.User | discord.Member, **kwargs) -> str:
+        """Formats Discord user's name for display on IRC"""
         params = {
             'colorize': self.colorize_irc_nicknames,
             'use_nickname': self.use_discord_nicknames,

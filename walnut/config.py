@@ -29,19 +29,30 @@ class RelayConfig:
     use_discord_nicknames: bool = True
     use_discord_usernames_with_nicknames: bool = True
     prevent_self_pinging: bool = True
-    expand_emotes: bool = True
     enable_stickers: bool = True
 
 
 @dataclass
 class Config:
-    """Class storing Walnut configuration"""
+    """Class storing main Walnut bot configuration"""
     discord_token: str
     irc_config: IRCConfig
     relays: list[RelayConfig]
 
     @classmethod
     def from_file(cls, file: Path) -> Config:
+        """
+        Loads configuration from a TOML file
+
+        Args:
+            file: Path to a TOML configuration file
+
+        Returns:
+            Config: Pre-set config class
+
+        Raises:
+            ValueError: Incorrect config values, missing config keys
+        """
         with file.open(mode='rb') as fp:
             config = tomllib.load(fp)
 

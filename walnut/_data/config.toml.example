@@ -12,20 +12,18 @@ password = null
 irc_channel = "#channel-name"
 discord_channel_id = 1111111111111111111
 discord_webhook_url = "https://discord.com/api/webhooks/1111111111111111111/web_hook_stuff"
+colorize_irc_nicknames = true
 use_discord_nicknames = true
 use_discord_usernames_with_nicknames = true
-colorize_irc_nicknames = true
 prevent_self_pinging = true
-expand_emotes = true
 enable_stickers = true
 
 [[relay]]
 irc_channel = "#channel-name2"
 discord_channel_id = 2222222222222222222
 discord_webhook_url = "https://discord.com/api/webhooks/2222222222222222222/web_hook_stuff"
+colorize_irc_nicknames = true
 use_discord_nicknames = true
 use_discord_usernames_with_nicknames = true
-colorize_irc_nicknames = true
 prevent_self_pinging = true
-expand_emotes = true
 enable_stickers = true

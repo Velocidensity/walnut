@@ -11,7 +11,16 @@ from walnut.irc.message import Message as IRCMessage
 
 
 class WalnutBot:
-    """Main class handling the bot"""
+    """Main class handling the bot
+
+    Attributes:
+        config: Bot configuration
+        discord (discord.Client): Discord client
+        irc (pyrcb2.IRCBot): Discord client
+        tree (discord.app_commands.CommandTree): Discord command tree
+        irc_hooks (list): List of hooks called with incoming IRC messages
+        discord_hooks (list): List of hooks called with incoming Discord messages
+    """
 
     def __init__(self, config: Config):
         """Initializes Discord and IRC clients"""
