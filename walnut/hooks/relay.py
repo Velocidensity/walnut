@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import re
-from typing import TYPE_CHECKING, Callable, cast
+from typing import TYPE_CHECKING, Callable, cast, override
 
 import aiohttp
 import discord
@@ -47,10 +47,10 @@ class MessageRelay(BaseHook):
         discord_webhook_url: str | None = None,
     ):
         self.bot: WalnutBot | None = None
-        self.irc_channel = cast(IStr, irc_channel)
+        self.irc_channel: IStr = cast(IStr, irc_channel)
         self.discord_channel: GuildChannel | Thread | PrivateChannel | None = None
-        self.discord_channel_id = discord_channel_id
-        self.discord_webhook_url = discord_webhook_url
+        self.discord_channel_id: int = discord_channel_id
+        self.discord_webhook_url: str | None = discord_webhook_url
 
     @classmethod
     def from_config(cls, config: RelayConfig):
@@ -65,12 +65,14 @@ class MessageRelay(BaseHook):
 
         return relay
 
+    @override
     def load(self, bot: WalnutBot) -> None:
         """Loads the relay into the bot"""
         self.bot = bot
         bot.irc_hooks.append(self.handle_irc_message)
         bot.discord_hooks.append(self.handle_discord_message)
 
+    @override
     async def handle_irc_message(self, message: IRCMessage) -> None:
         """Handles and relays an IRC message"""
         if not self.bot:
@@ -106,6 +108,7 @@ class MessageRelay(BaseHook):
 
         await self.discord_channel.send(f'<{message.sender}> {message}')
 
+    @override
     async def handle_discord_message(self, message: discord.Message) -> None:
         """Handles and relays a Discord message"""
         if not self.bot:
