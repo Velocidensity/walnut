@@ -117,15 +117,33 @@ class MessageRelay(BaseHook):
         if message.author.bot or message.channel.id != self.discord_channel_id:
             return
 
-        nickname = self.format_discord_user(message.author)
+        for snapshot in message.message_snapshots:
+            await self._handle_message(snapshot, message.author)
+
+        return await self._handle_message(message, message.author)
+
+    async def _handle_message(
+        self,
+        message: discord.Message | discord.MessageSnapshot,
+        author: discord.User | discord.Member
+    ) -> None:
+        """Handles and relays a Discord message"""
+        if not self.bot:
+            raise RuntimeError('Relay not loaded, Relay.load(bot) must be called first')
+
+        nickname = self.format_discord_user(author)
 
         reply = ''
-        if message.reference and message.reference.cached_message:
+        if isinstance(message, discord.Message) \
+                and message.reference and message.reference.cached_message:
             reference_author = self.format_discord_user(
                 message.reference.cached_message.author,
                 colorize=False
             )
-            reply = f'[Replying to {reference_author}] '
+            reply += f'[Replying to {reference_author}] '
+
+        if isinstance(message, discord.MessageSnapshot):
+            reply += '[Forwarded content] '
 
         # Handle stickers first. API supports multiple, but clients do not
         for sticker in message.stickers:
@@ -141,15 +159,22 @@ class MessageRelay(BaseHook):
             emoji_url = get_emoji_url(int(m.group('id')))
             await self.bot.irc.privmsg(
                 self.irc_channel,
-                f'<{nickname}> Emoji: {m.group("name")} {emoji_url}'
+                f'<{nickname}> Emoji: {m.group("name")} ({emoji_url})'
             )
         # Regular message, still want to strip out emoji IDs (<:emote:12345> -> :emote:)
         else:
-            parsed = parse_markdown(cast(str, message.clean_content))
+            if isinstance(message, discord.Message):
+                parsed = parse_markdown(message.clean_content)
+            else:
+                parsed = parse_markdown(message.content)
+
             if parsed.count('\n') > 3:  # preserve new lines without spam
                 parsed = parsed.replace('\n', ' ')
 
             for part in parsed.split('\n'):
+                if not part.strip():
+                    continue
+
                 await self.bot.irc.privmsg(
                     self.irc_channel,
                     f'<{nickname}> {reply}' + part
